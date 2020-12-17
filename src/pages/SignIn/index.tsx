@@ -1,6 +1,7 @@
 import React, {
   useRef,
-  useCallback
+  useCallback,
+  useContext
 } from 'react';
 
 import {
@@ -27,10 +28,18 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
+import { AuthContext } from '../../context/AuthContext';
+
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { signIn } = useContext(AuthContext);
 
-  const handleSubmit = useCallback(async (data: object) => {
+  const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
       formRef.current?.setErrors({});
 
@@ -42,11 +51,17 @@ const SignIn: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false
       });
+
+      signIn({
+        email: data.email,
+        password: data.password
+      });
     } catch (error) {
       const errors = getValidationErrors(error);
       formRef.current?.setErrors(errors);
     }
-  }, []);
+  }, [signIn]);
+
   return (
     <Container>
       <Content>
