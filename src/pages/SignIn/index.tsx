@@ -1,7 +1,6 @@
 import React, {
   useRef,
-  useCallback,
-  useContext
+  useCallback
 } from 'react';
 
 import {
@@ -28,7 +27,7 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface SignInFormData {
   email: string;
@@ -37,9 +36,7 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { signIn, user } = useContext(AuthContext);
-
-  console.log(user);
+  const { signIn, user } = useAuth();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
@@ -59,8 +56,12 @@ const SignIn: React.FC = () => {
         password: data.password
       });
     } catch (error) {
-      const errors = getValidationErrors(error);
-      formRef.current?.setErrors(errors);
+      if (error instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(error);
+        formRef.current?.setErrors(errors);
+      }
+
+      // disparar um toast
     }
   }, [signIn]);
 
