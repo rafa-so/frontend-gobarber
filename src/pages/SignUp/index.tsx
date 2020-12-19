@@ -12,7 +12,10 @@ import {
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import { Link } from 'react-router-dom';
+
 import {
+  AnimationContainer,
   Container,
   Content,
   Background
@@ -49,19 +52,21 @@ const SignUp: React.FC = () => {
     <Container>
       <Background />
       <Content>
-        <img src={logoImg} alt="GoBarber" />
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça o seu Cadastro</h1>
-          <Input icon={FiUser} name="name" placeholder="Nome" />
-          <Input icon={FiMail} name="email" placeholder="E-mail" />
-          <Input icon={FiLock} name="password" type="password" placeholder="Senha" />
-          <Button type="submit">Cadastrar</Button>
-        </Form>
+        <AnimationContainer>
+          <img src={logoImg} alt="GoBarber" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça o seu Cadastro</h1>
+            <Input icon={FiUser} name="name" placeholder="Nome" />
+            <Input icon={FiMail} name="email" placeholder="E-mail" />
+            <Input icon={FiLock} name="password" type="password" placeholder="Senha" />
+            <Button type="submit">Cadastrar</Button>
+          </Form>
 
-        <a href="signup">
-          <FiArrowLeft />
-          Voltar para o logon
-        </a>
+          <Link to="/">
+            <FiArrowLeft />
+            Voltar para o logon
+          </Link>
+        </AnimationContainer>
       </Content>
     </Container>
   );

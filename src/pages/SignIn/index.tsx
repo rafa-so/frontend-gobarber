@@ -16,7 +16,10 @@ import { FormHandles } from '@unform/core';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import { Link } from 'react-router-dom';
+
 import {
+  AnimationContainer,
   Container,
   Content,
   Background
@@ -67,6 +70,8 @@ const SignIn: React.FC = () => {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
         formRef.current?.setErrors(errors);
+
+        return;
       }
 
       addToast({
@@ -80,20 +85,22 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="GoBarber" />
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça o seu Logon</h1>
-          <Input icon={FiMail} name="email" placeholder="E-mail" />
-          <Input icon={FiLock} name="password" type="password" placeholder="Senha" />
-          <Button type="submit">Entrar</Button>
+        <AnimationContainer>
+          <img src={logoImg} alt="GoBarber" />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça o seu Logon</h1>
+            <Input icon={FiMail} name="email" placeholder="E-mail" />
+            <Input icon={FiLock} name="password" type="password" placeholder="Senha" />
+            <Button type="submit">Entrar</Button>
 
-          <a href="forgot">Esqueci minha senha</a>
-        </Form>
+            <a href="forgot">Esqueci minha senha</a>
+          </Form>
 
-        <a href="signup">
-          <FiLogIn />
-          Criar conta
-        </a>
+          <Link to="/signup">
+            <FiLogIn />
+            Criar conta
+          </Link>
+        </AnimationContainer>
       </Content>
       <Background />
     </Container>
