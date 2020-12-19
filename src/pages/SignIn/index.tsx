@@ -16,7 +16,7 @@ import { FormHandles } from '@unform/core';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   AnimationContainer,
@@ -42,6 +42,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
+  const history = useHistory();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
@@ -66,6 +67,8 @@ const SignIn: React.FC = () => {
         title: 'Sucesso no logon',
         description: 'Sucesso ao executar o logon!'
       });
+
+      history.push('/dashboard');
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
@@ -80,7 +83,7 @@ const SignIn: React.FC = () => {
         description: 'Ocorreu um erro ao fazer o login, cheque as credenciais'
       });
     }
-  }, [signIn, addToast]);
+  }, [signIn, addToast, history]);
 
   return (
     <Container>
