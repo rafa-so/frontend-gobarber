@@ -37,7 +37,7 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
@@ -57,13 +57,23 @@ const SignIn: React.FC = () => {
         email: data.email,
         password: data.password
       });
+
+      addToast({
+        type: 'success',
+        title: 'Sucesso no logon',
+        description: 'Sucesso ao executar o logon!'
+      });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error);
         formRef.current?.setErrors(errors);
       }
 
-      addToast();
+      addToast({
+        type: 'error',
+        title: 'Erro na autenticação',
+        description: 'Ocorreu um erro ao fazer o login, cheque as credenciais'
+      });
     }
   }, [signIn, addToast]);
 
